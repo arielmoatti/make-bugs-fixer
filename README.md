@@ -45,7 +45,7 @@
 <li><b>Left-drag pan (canvas)</b> - גרירה שמאלית לקאנבס.</li>
 </ul>
 
-<p align="center"><img src="docs/context-menu.jpg" width="300" alt="תפריט ההדלקה/כיבוי בקליק ימני על האייקון"></p>
+<p align="center"><img src="docs/context-menu-toggle.jpg" width="300" alt="תפריט ההדלקה/כיבוי בקליק ימני על האייקון"></p>
 
 הגרירה השמאלית מתחלפת מיידית. תיקון הפונט חל במלואו אחרי רענון הדף.
 
