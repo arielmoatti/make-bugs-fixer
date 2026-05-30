@@ -3,3 +3,7 @@
 Thumbs.db
 desktop.ini
 *.zip
+
+# local-only deploy helper + its private target path (never committed)
+deploy.ps1
+deploy-target.txt
