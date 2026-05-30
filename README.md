@@ -20,7 +20,7 @@
 ## התקנה
 
 <ol dir="rtl">
-<li>הורידו את הקוד - כפתור <b>Code ← Download ZIP</b>, או מתוך ה-<b>Release</b> - וחלצו לתיקייה.</li>
+<li>הורידו את הקוד - לחצו על הכפתור הירוק <b>Code &lt;&gt;</b> ← <b>Download ZIP</b> (או מתוך ה-<b>Release</b>), וחלצו לתיקייה.</li>
 <li>פתחו בכרום את <code>chrome://extensions</code>.</li>
 <li>הדליקו <b>Developer mode</b> (פינה ימנית עליונה).</li>
 <li>לחצו <b>Load unpacked</b> ובחרו את התיקייה שחילצתם (זו שמכילה את <code>manifest.json</code>).</li>
