@@ -19,6 +19,10 @@
 
 ## התקנה
 
+<blockquote dir="rtl">
+<b>הורדה מהירה:</b> קובץ ZIP מוכן יושב ב-<a href="https://github.com/arielmoatti/make-bugs-fixer/releases/latest">Releases</a> (מופיע גם בצד ימין של עמוד הריפו). הורידו אותו, חלצו, והמשיכו משלב 2.
+</blockquote>
+
 <ol dir="rtl">
 <li>הורידו את הקוד: לחצו על הכפתור הירוק <code>Code &lt;&gt;</code> ואז <b>Download ZIP</b>, וחלצו לתיקייה. (אפשר גם להוריד מה-<b>Release</b>.)</li>
 <li>פתחו בכרום את <code>chrome://extensions</code>.</li>
