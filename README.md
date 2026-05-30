@@ -4,6 +4,11 @@
 
 <p align="center"><img src="icons/128.png" width="96" alt="Make Bugs Fixer"></p>
 
+<p align="center">
+<a href="https://github.com/arielmoatti/make-bugs-fixer/releases/latest"><img src="https://img.shields.io/github/v/release/arielmoatti/make-bugs-fixer?label=Download%20ZIP&color=2ea44f" alt="Download ZIP"></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License"></a>
+</p>
+
 מדובר בתוסף Chrome קטן וקוד-פתוח שמתקן שני מטרדים ש-Make.com עדיין לא פתרו: רינדור הפונט העברי המכוער, והשינוי שהעביר את גרירת הקאנבס מהכפתור השמאלי לכפתור הימני. כל אחד מהתיקונים ניתן להדלקה או כיבוי בנפרד, בקליק ימני על אייקון התוסף.
 
 <blockquote dir="rtl">
@@ -39,6 +44,8 @@
 <li><b>Hebrew font fix</b> - תיקון הפונט העברי.</li>
 <li><b>Left-drag pan (canvas)</b> - גרירה שמאלית לקאנבס.</li>
 </ul>
+
+<p align="center"><img src="docs/context-menu.jpg" width="300" alt="תפריט ההדלקה/כיבוי בקליק ימני על האייקון"></p>
 
 הגרירה השמאלית מתחלפת מיידית. תיקון הפונט חל במלואו אחרי רענון הדף.
 
