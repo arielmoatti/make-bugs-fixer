@@ -24,12 +24,13 @@
         if (e.ctrlKey) return; // pinch / browser zoom: leave alone
         const c = document.querySelector(SEL);
         if (!c) return;
-        // Only act when the wheel is over the canvas surface.
-        if (e.target !== c && !c.contains(e.target)) {
-            const r = c.getBoundingClientRect();
-            if (e.clientX < r.left || e.clientX > r.right ||
-                e.clientY < r.top || e.clientY > r.bottom) return;
-        }
+        // Only act when the wheel TARGET is the canvas surface itself, exactly
+        // like the left-drag pan. Overlay panels (a module's properties window,
+        // sidebars) are separate DOM elements layered on top of the canvas, so
+        // their wheel events target THEM, not the canvas - we skip those and let
+        // the panel scroll natively. Checking the cursor's rect is not enough: a
+        // panel can cover a spot that still falls inside the canvas's bounds.
+        if (e.target !== c) return;
         e.preventDefault();
         e.stopImmediatePropagation();
         c.dispatchEvent(new WheelEvent("wheel", {
