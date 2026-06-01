@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "Make Bugs Fixer",
-    "version": "2.4",
-    "description": "Fixes annoyances Make hasn't: Hebrew font rendering (Make + Boost), and left-click drag to pan the canvas. Toggle each via right-click on the extension icon.",
+    "version": "2.5",
+    "description": "Fixes annoyances Make hasn't: Hebrew font rendering (Make + Boost), left-click drag to pan the canvas, and finer mouse-wheel zoom steps. Toggle each via right-click on the extension icon.",
     "permissions": ["contextMenus", "storage"],
     "icons": {
         "16": "icons/16.png",
@@ -32,6 +32,11 @@
             "matches": ["*://*.make.com/*"],
             "js": ["pan-fix.js"],
             "run_at": "document_end"
+        },
+        {
+            "matches": ["*://*.make.com/*"],
+            "js": ["zoom-fix.js"],
+            "run_at": "document_start"
         }
     ]
 }

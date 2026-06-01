@@ -1,13 +1,15 @@
-// Adds two checkbox toggles to the right-click menu of the extension icon:
+// Adds three checkbox toggles to the right-click menu of the extension icon:
 //   - Hebrew font fix
 //   - Left-drag pan (canvas)
+//   - Finer wheel zoom (canvas)
 // State is stored in chrome.storage.local and read by the content scripts.
 
-const DEFAULTS = { hebrewFix: true, panFix: true };
+const DEFAULTS = { hebrewFix: true, panFix: true, zoomFix: true };
 
 const MENU = {
     hebrewFix: { id: "toggle-hebrew", title: "Hebrew font fix" },
     panFix: { id: "toggle-pan", title: "Left-drag pan (canvas)" },
+    zoomFix: { id: "toggle-zoom", title: "Finer wheel zoom (canvas)" },
 };
 
 async function buildMenu() {
@@ -25,6 +27,13 @@ async function buildMenu() {
         title: MENU.panFix.title,
         type: "checkbox",
         checked: state.panFix,
+        contexts: ["action"],
+    });
+    chrome.contextMenus.create({
+        id: MENU.zoomFix.id,
+        title: MENU.zoomFix.title,
+        type: "checkbox",
+        checked: state.zoomFix,
         contexts: ["action"],
     });
 }
@@ -46,5 +55,7 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
         await chrome.storage.local.set({ hebrewFix: info.checked });
     } else if (info.menuItemId === MENU.panFix.id) {
         await chrome.storage.local.set({ panFix: info.checked });
+    } else if (info.menuItemId === MENU.zoomFix.id) {
+        await chrome.storage.local.set({ zoomFix: info.checked });
     }
 });
