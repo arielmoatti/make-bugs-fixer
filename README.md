@@ -5,7 +5,7 @@
 <p align="center"><img src="icons/128.png" width="96" alt="Make Bugs Fixer"></p>
 
 <p align="center">
-<a href="https://github.com/arielmoatti/make-bugs-fixer/releases/latest"><img src="https://img.shields.io/github/v/release/arielmoatti/make-bugs-fixer?label=Download%20ZIP&color=2ea44f&v=25" alt="Download ZIP"></a>
+<a href="https://github.com/arielmoatti/make-bugs-fixer/releases/latest"><img src="https://img.shields.io/github/v/release/arielmoatti/make-bugs-fixer?label=Download%20ZIP&color=2ea44f&v=26" alt="Download ZIP"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License"></a>
 </p>
 
