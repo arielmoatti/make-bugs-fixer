@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "Make Bugs Fixer",
-    "version": "2.6",
-    "description": "Fixes annoyances Make hasn't: Hebrew font rendering (Make + Boost), finer mouse-wheel zoom steps, and an optional left-click drag pan (off by default — Make now has a native canvas-pan setting). Toggle each via right-click on the extension icon.",
+    "version": "2.7",
+    "description": "Fixes the Hebrew font rendering Make and Boost.space still get wrong. Also bundles optional finer mouse-wheel zoom and left-click drag pan, both off by default since Make fixed them natively. Toggle each via right-click on the extension icon.",
     "permissions": ["contextMenus", "storage"],
     "icons": {
         "16": "icons/16.png",

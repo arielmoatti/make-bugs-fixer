@@ -8,13 +8,18 @@
 //
 // Loop-safe: only TRUSTED wheel events are intercepted; the synthetic one we
 // emit (isTrusted=false) is ignored, so it reaches Make untouched.
+//
+// OFF by default since v2.7: Make restored the native wheel-zoom sensitivity to
+// its pre-canvas-update behaviour, so scaling the delta down here now OVER-damps
+// it (each notch becomes ~1/3 of a native step, i.e. sluggish). Left in place,
+// toggleable from the icon menu, for anyone who still wants finer steps.
 
 (function () {
     const SEL = "canvas.surface";
     const FACTOR = 0.34; // ~1/3: a 3-line notch behaves like roughly 1 line
-    let enabled = true;
+    let enabled = false; // OFF by default; toggled via right-click on the extension icon
 
-    chrome.storage.local.get({ zoomFix: true }, (s) => { enabled = s.zoomFix; });
+    chrome.storage.local.get({ zoomFix: false }, (s) => { enabled = s.zoomFix; });
     chrome.storage.onChanged.addListener((changes, area) => {
         if (area === "local" && changes.zoomFix) enabled = changes.zoomFix.newValue;
     });

@@ -5,14 +5,26 @@
 
 let observer = null;
 
+// Append a Hebrew-capable fallback to the element's EXISTING font stack instead
+// of replacing it. font-family applies per element, but the browser resolves it
+// per glyph: keeping the site's own font first (e.g. Inter on Make) means Latin
+// and digits stay in that font, and only the Hebrew glyphs - which the Latin-only
+// webfont can't draw - fall through to Segoe UI. Replacing the stack outright
+// (the old behaviour) forced the Latin parts of mixed strings onto Segoe UI too,
+// so a label with Hebrew looked different from a neighbouring English-only label.
+// The /segoe ui/ guard keeps it idempotent under the MutationObserver (an element
+// already patched - or inheriting a patched stack - is skipped, no re-appending).
 function fixHebrewFonts() {
     document.querySelectorAll("*").forEach((el) => {
         if (el.innerText && /[֐-׿]/.test(el.innerText)) {
-            el.style.setProperty(
-                "font-family",
-                "Segoe UI, Arial, sans-serif",
-                "important",
-            );
+            const cur = el.style.fontFamily || getComputedStyle(el).fontFamily;
+            if (!/segoe ui/i.test(cur)) {
+                el.style.setProperty(
+                    "font-family",
+                    cur + ", 'Segoe UI', Arial, sans-serif",
+                    "important",
+                );
+            }
         }
     });
 }

@@ -4,11 +4,16 @@
 //   - Finer wheel zoom (canvas)
 // State is stored in chrome.storage.local and read by the content scripts.
 
-// panFix defaults to OFF: Make shipped a native "Canvas panning: Left-click"
-// setting (View > Preferences > Input device settings). With that on, our
-// synthetic right-button pointerdown would trigger Make's multi-select (lasso)
-// on every left-drag. Users who prefer our pan-fix can still enable it manually.
-const DEFAULTS = { hebrewFix: true, panFix: false, zoomFix: true };
+// panFix and zoomFix both default to OFF, because Make has since fixed both
+// natively:
+//   - pan:  a "Canvas panning: Left-click" setting (View > Preferences > Input
+//           device settings). With it on, our synthetic right-button pointerdown
+//           triggers Make's multi-select (lasso) on every left-drag.
+//   - zoom: Make restored the pre-canvas-update wheel-zoom sensitivity, so our
+//           delta-scaling now over-dampens it (each notch becomes ~1/3 the step,
+//           i.e. sluggish). Confirmed back to normal across browsers/accounts.
+// Both can still be re-enabled manually from the icon's right-click menu.
+const DEFAULTS = { hebrewFix: true, panFix: false, zoomFix: false };
 
 const MENU = {
     hebrewFix: { id: "toggle-hebrew", title: "Hebrew font fix" },
@@ -43,20 +48,30 @@ async function buildMenu() {
 }
 
 const PAN_MIGRATION_FLAG = "panForcedOff_v2_6";
+const ZOOM_MIGRATION_FLAG = "zoomForcedOff_v2_7";
 
 chrome.runtime.onInstalled.addListener(async (details) => {
-    const cur = await chrome.storage.local.get([...Object.keys(DEFAULTS), PAN_MIGRATION_FLAG]);
+    const cur = await chrome.storage.local.get([
+        ...Object.keys(DEFAULTS), PAN_MIGRATION_FLAG, ZOOM_MIGRATION_FLAG,
+    ]);
     const init = {};
     for (const k of Object.keys(DEFAULTS)) {
         if (cur[k] === undefined) init[k] = DEFAULTS[k];
     }
-    // One-time migration for existing installs: Make now ships a native canvas-pan
-    // toggle, so force our pan-fix off once (otherwise it lasso-conflicts with the
-    // native left-pan). Guarded by a flag so it runs a single time — users who
-    // deliberately re-enable pan-fix afterwards keep their choice.
+    // One-time migrations for existing installs. Each is guarded by its own flag
+    // so it runs a single time — users who deliberately re-enable a fix afterwards
+    // keep their choice.
+    //   v2.6: Make shipped a native canvas-pan toggle, so force pan-fix off once
+    //         (otherwise it lasso-conflicts with the native left-pan).
     if (details.reason === "update" && !cur[PAN_MIGRATION_FLAG]) {
         init.panFix = false;
         init[PAN_MIGRATION_FLAG] = true;
+    }
+    //   v2.7: Make restored the native wheel-zoom sensitivity, so force zoom-fix
+    //         off once (otherwise our delta-scaling makes zooming sluggish).
+    if (details.reason === "update" && !cur[ZOOM_MIGRATION_FLAG]) {
+        init.zoomFix = false;
+        init[ZOOM_MIGRATION_FLAG] = true;
     }
     if (Object.keys(init).length) await chrome.storage.local.set(init);
     await buildMenu();
