@@ -4,7 +4,11 @@
 //   - Finer wheel zoom (canvas)
 // State is stored in chrome.storage.local and read by the content scripts.
 
-const DEFAULTS = { hebrewFix: true, panFix: true, zoomFix: true };
+// panFix defaults to OFF: Make shipped a native "Canvas panning: Left-click"
+// setting (View > Preferences > Input device settings). With that on, our
+// synthetic right-button pointerdown would trigger Make's multi-select (lasso)
+// on every left-drag. Users who prefer our pan-fix can still enable it manually.
+const DEFAULTS = { hebrewFix: true, panFix: false, zoomFix: true };
 
 const MENU = {
     hebrewFix: { id: "toggle-hebrew", title: "Hebrew font fix" },
@@ -38,11 +42,21 @@ async function buildMenu() {
     });
 }
 
-chrome.runtime.onInstalled.addListener(async () => {
-    const cur = await chrome.storage.local.get(Object.keys(DEFAULTS));
+const PAN_MIGRATION_FLAG = "panForcedOff_v2_6";
+
+chrome.runtime.onInstalled.addListener(async (details) => {
+    const cur = await chrome.storage.local.get([...Object.keys(DEFAULTS), PAN_MIGRATION_FLAG]);
     const init = {};
     for (const k of Object.keys(DEFAULTS)) {
         if (cur[k] === undefined) init[k] = DEFAULTS[k];
+    }
+    // One-time migration for existing installs: Make now ships a native canvas-pan
+    // toggle, so force our pan-fix off once (otherwise it lasso-conflicts with the
+    // native left-pan). Guarded by a flag so it runs a single time — users who
+    // deliberately re-enable pan-fix afterwards keep their choice.
+    if (details.reason === "update" && !cur[PAN_MIGRATION_FLAG]) {
+        init.panFix = false;
+        init[PAN_MIGRATION_FLAG] = true;
     }
     if (Object.keys(init).length) await chrome.storage.local.set(init);
     await buildMenu();

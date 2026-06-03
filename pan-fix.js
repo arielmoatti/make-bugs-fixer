@@ -17,9 +17,9 @@
 
     let armed = null;   // {pointerId, x, y} set on left-press over empty canvas
     let panning = false;
-    let enabled = true; // toggled via right-click on the extension icon
+    let enabled = false; // OFF by default; toggled via right-click on the extension icon
 
-    chrome.storage.local.get({ panFix: true }, (s) => { enabled = s.panFix; });
+    chrome.storage.local.get({ panFix: false }, (s) => { enabled = s.panFix; });
     chrome.storage.onChanged.addListener((changes, area) => {
         if (area === "local" && changes.panFix) enabled = changes.panFix.newValue;
     });
